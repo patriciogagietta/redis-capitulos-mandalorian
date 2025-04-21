@@ -1,0 +1,29 @@
+services:
+  back:
+    build: ./back
+    container_name: back_api_capitulos
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./back:/back
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    container_name: redis_capitulos
+    ports:
+      - "6379:6379"
+
+  front:
+    build: ./front
+    container_name: front_api_capitulos
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./front:/front
+    depends_on:
+      - back
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+
+  
